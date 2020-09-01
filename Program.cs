@@ -45,7 +45,7 @@ namespace LetsTalkToCBYK
 
         private static void Setup()
         {
-            Console.WriteLine($"Setting hostname {HOSTNAME} and port {PORT}... \n");
+            Console.WriteLine($"\nSetting up MicroService {MicroServiceName} \nHostname {HOSTNAME} \nPort {PORT}... \n");
 
             var factory = new ConnectionFactory()
             {
@@ -83,9 +83,9 @@ namespace LetsTalkToCBYK
 
             var message = JsonConvert.DeserializeObject<Message>(json);
 
-            var formattedDate = ConvertUnixTimeStampToDateTime(message.TimeStamp).ToString("dd/MM/yyyy HH:mm");
+            var formattedDate = ConvertUnixTimeStampToDateTime(message.TimeStamp).ToString("dd/MM/yyyy HH:mm:ss");
 
-            Console.WriteLine($"Message received from {message.Sender} with content: {message.Content} sent: {formattedDate} \n");
+            Console.WriteLine($"Message received from {message.Sender} \nWith content: {message.Content} \nSent: {formattedDate} \nId: {message.Id} \n");
         }
 
         private static string ToJson(object content)
@@ -116,14 +116,14 @@ namespace LetsTalkToCBYK
             var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromSeconds(5);
 
-            var message = GetMessage();
-
-            var body = Encoding.UTF8.GetBytes(ToJson(message));
-
             var timer = new System.Threading.Timer((e) =>
             {
                 if (channel != null)
                 {
+                    var message = GetMessage();
+
+                    var body = Encoding.UTF8.GetBytes(ToJson(message));
+
                     channel.BasicPublish(exchange: "", routingKey: ROUTING_KEY, basicProperties: null, body: body);
 
                     Console.WriteLine($"{MicroServiceName} sent a Hello World... \n");
