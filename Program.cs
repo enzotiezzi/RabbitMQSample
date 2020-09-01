@@ -45,7 +45,7 @@ namespace LetsTalkToCBYK
 
         private static void Setup()
         {
-            Console.WriteLine("Setting hostname localhost and port 5672... \n");
+            Console.WriteLine($"Setting hostname {HOSTNAME} and port {PORT}... \n");
 
             var factory = new ConnectionFactory()
             {
@@ -83,7 +83,9 @@ namespace LetsTalkToCBYK
 
             var message = JsonConvert.DeserializeObject<Message>(json);
 
-            Console.WriteLine($"Message received from {message.Sender} with content: {message.Content} \n");
+            var formattedDate = ConvertUnixTimeStampToDateTime(message.TimeStamp).ToString("dd/MM/yyyy HH:mm");
+
+            Console.WriteLine($"Message received from {message.Sender} with content: {message.Content} sent: {formattedDate} \n");
         }
 
         private static string ToJson(object content)
@@ -127,6 +129,13 @@ namespace LetsTalkToCBYK
                     Console.WriteLine($"{MicroServiceName} sent a Hello World... \n");
                 }
             }, null, startTimeSpan, periodTimeSpan);
+        }
+
+        private static DateTime ConvertUnixTimeStampToDateTime(double unixTimeStamp)
+        {
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddMilliseconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
         }
     }
 }
