@@ -23,7 +23,7 @@ Um exemplo de como fazer uma simples comunicação usando rabbitMQ e C#.
 
 3 - O projeto se utiliza do host localhost e a porta 5672, certifique-se que pode usá-las normalmente.
 
-4 - Abra a pasta "bin" dentro da pasta do projeto, selecione debug ou release de acordo com sua escolha de compilação no passo 2, abra a pasta netcoreapp3.1 e executa o aplicativo "LetsTalkToCBYK"
+4 - Abra a pasta "bin" dentro da pasta do projeto, selecione debug ou release de acordo com sua escolha de compilação no passo 2, abra a pasta netcoreapp3.1 e execute o aplicativo "LetsTalkToCBYK"
 
 5 - Defina um nome para a instância do MicroServiço ou utilize o nome padrão(aperte a tecla enter para usar o nome padrão).
 
